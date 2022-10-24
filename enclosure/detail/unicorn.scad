@@ -3,7 +3,7 @@ include <config.scad>
 module unicorn()
 {
   scale(0.6*[1,1])
-    translate([-90, -180])
+    translate([-90, -190])
       import("unicorn.svg");
 }
 
