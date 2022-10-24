@@ -7,4 +7,8 @@ good-bye gift for Bea, from the team.
 - WS2818B as LED strips?
 - arduino nano as a dev board?
 - USB charger as a power supply?
-- enclosure design
+- electronics enclosure design
+
+## done
+- main body - top part
+- main body - bottom part
