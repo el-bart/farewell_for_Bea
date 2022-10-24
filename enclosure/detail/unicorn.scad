@@ -1,3 +1,5 @@
+include <config.scad>
+
 module unicorn()
 {
   scale(0.6*[1,1])
@@ -6,4 +8,9 @@ module unicorn()
 }
 
 
+difference()
+{
+  circle(d=main_d);
+  circle(d=main_d-2);
+}
 unicorn();
