@@ -1,0 +1,5 @@
+#!/bin/bash
+exec arduino \
+  --board "${ARDUINO_BOARD:-arduino:avr:nano}" \
+  --port "${ARDUINO_PORT:-/dev/ttyUSB0}" \
+  --verify "blink.ino"
