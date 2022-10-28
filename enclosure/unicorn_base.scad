@@ -4,6 +4,18 @@ use <unicorn_bottom.scad>
 offset = -15;
 size_ext = [80, 30+50, 30];
 size_int = [22, size_ext[1], 18];
+usb_port_size = [7, 9, 4];
+
+module screw_holes(dh=0)
+{
+  edge = 5;
+  for(dx=[-1,+1])
+    for(dz=[-1,+1])
+      translate([dx*(size_ext[0]-edge)/2, 0, dz*(size_ext[2]-edge)/2])
+        translate([0, -eps, size_ext[2]/2])
+          rotate([-90, 0, 0])
+            cylinder(d=2.2+0.1, h=6.5+eps, $fn=30);
+}
 
 module pcb_stub()
 {
@@ -16,9 +28,8 @@ module pcb_stub()
     translate([(size[0]-uc_size[0])/2, 0, size[2]])
       cube(uc_size);
     // USB port
-    port_size = [7, 9, 4];
-    translate([(size[0]-port_size[0])/2, (size[1]-port_size[1]), -port_size[2]])
-      cube(port_size);
+    translate([(size[0]-usb_port_size[0])/2, (size[1]-usb_port_size[1]), -usb_port_size[2]])
+      cube(usb_port_size);
   }
 }
 
@@ -45,6 +56,8 @@ module base_core()
       // PCB slide-in slot
       translate([-28/2, 30+eps, 8])
         cube([28, 35, 3.5]);
+      translate([0, 59, 0])
+        screw_holes();
     }
     %translate([0, 30, 8])
       pcb_stub();
@@ -84,4 +97,30 @@ module base()
         unicorn_bottom();
 }
 
+module cover()
+{
+  difference()
+  {
+    translate([-80/2, 0, 0])
+    {
+      difference()
+      {
+        cube([80, 2, 30]);
+        // USB port slot
+        port_hole = usb_port_size + 2*[1.5,0,1];
+        translate([80/2-port_hole[0]/2, -port_hole[1]/2, 3])
+          cube(port_hole);
+      }
+    }
+    screw_holes();
+  }
+}
+
+
 base();
+translate([0, 65, 0])
+  %cover();
+
+translate([0, 100, 0])
+  rotate([90, 0, 0])
+    cover();
