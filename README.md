@@ -18,11 +18,12 @@ power consumption per 10 LEDs:
 
 ## TODOs
 - USB charger as a power supply?
-- electronics enclosure design
-- add a mode switch (rainbow vs. glowing red)
+- ctrl SW
 
 ## done
 - main body - top part
 - main body - bottom part
 - WS2818B as LED strips?
 - WeMOS D1 Mini NodeMCU ESP8266-12F ESP-12 Arduino board
+- add a mode switch (rainbow vs. glowing red)
+- electronics enclosure design
