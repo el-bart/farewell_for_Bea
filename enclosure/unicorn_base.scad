@@ -5,6 +5,29 @@ offset = -15;
 size_ext = [80, 30+50, 30];
 size_int = [22, size_ext[1], 18];
 usb_port_size = [7, 9, 4];
+display = true;
+
+module button_mock()
+{
+  // core
+  cylinder(d=9.6, h=10.25);
+  translate([0, 0, 10.25])
+  {
+    // thread
+    cylinder(d=6.7, h=5.9);
+    // button
+    translate([0, 0, 5.9])
+    {
+      cylinder(d=3, h=5);
+      translate([0, 0, 5])
+        cylinder(d=5.8, h=2.5);
+    }
+  }
+  // contacts
+  for(dx=[-1, +1])
+    translate([dx*4.4/2-0.5/2, -3/2, -6])
+      cube([0.5, 3, 6]);
+}
 
 module screw_holes(dh=0)
 {
@@ -59,8 +82,9 @@ module base_core()
       translate([0, 59, 0])
         screw_holes();
     }
-    %translate([0, 30, 8])
-      pcb_stub();
+    if(display)
+      %translate([0, 30, 8])
+        pcb_stub();
   }
 
   intersection()
@@ -87,14 +111,34 @@ module base()
     base_core();
     location()
       unicorn_medal_placeholder(20);
+    translate([25, 58.5+eps, 17])
+    {
+      translate([0, 0, 9+eps])
+        cylinder(d=6.5+0.5, h=5.5-1.5, $fn=50);
+      translate(-13/2*[1,1,0] + [0, 0, -7.7-6])
+      {
+        cube([13, 13, 18+6]);
+        translate([-10, 13-4-2, 0])
+          cube([13+10, 4, 4]);
+      }
+      if(display)
+        %button_mock();
+    }
   }
+
   // display
-  if(1)
+  if(display)
+  {
     %location()
+    {
       if(1)
         unicorn_medal_placeholder(0);
       else
         unicorn_bottom();
+    }
+    %translate([0, 65, 0])
+      cover();
+  }
 }
 
 module cover()
@@ -118,8 +162,6 @@ module cover()
 
 
 base();
-translate([0, 65, 0])
-  %cover();
 
 translate([0, 100, 0])
   rotate([90, 0, 0])
