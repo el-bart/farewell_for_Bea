@@ -1,4 +1,4 @@
-MAIN:=src/main.cpp
+MAIN:=src/unicorn_rainbow.cpp
 
 # these can be overwritten from shell
 PORT:=/dev/ttyUSB0
@@ -10,6 +10,7 @@ FLAGS+=--port "$(PORT)"
 FLAGS+=--pref sketchbook.path=build/
 FLAGS+=--pref build.path=build/out
 FLAGS+=--pref build.verbose=true
+FLAGS+=--pref compiler.cpp.extra_flags="-std=c++11"
 
 .PHONY: flash
 flash: Makefile neopixel
