@@ -2,11 +2,11 @@
 PIO_PORT:=/dev/ttyUSB0
 
 .PHONY: flash
-flash: Makefile build
+flash: build
 	pio run --disable-auto-clean --target upload --upload-port "$(PIO_PORT)"
 
 .PHONY: build
-build: Makefile
+build:
 	pio run --disable-auto-clean
 
 .PHONY: clean
