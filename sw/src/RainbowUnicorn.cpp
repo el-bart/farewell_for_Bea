@@ -17,6 +17,7 @@ RainbowUnicorn::RainbowUnicorn() : lightManager(PIN_LED_STRIP, LED_COUNT)
 void RainbowUnicorn::initialize()
 {
 	pinMode(PIN_BUTTON, INPUT_PULLUP);
+	lightManager.setEffect(LightManager::Effect::RainbowMedium);
 }
 
 void RainbowUnicorn::update()
