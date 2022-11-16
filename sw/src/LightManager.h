@@ -20,6 +20,7 @@ class LightManager final
 		RainbowFast,
 		Pulsing,
 		Christmas,
+        // REVIEW: instead of adding non-Effect enums to iterate, create a constexpr helper function, that returns std::array<>{Effect1, Effect2, ...} and use it instead. :)
 		First = None,
 		Last = Christmas,
 	};
@@ -43,9 +44,11 @@ class LightManager final
 	[[nodiscard]] uint8_t getBrightness() const;
 
 	void setColor(Color const &color);
+    // REVIEW: it's better to return small types by value
 	[[nodiscard]] Color const &getColor() const;
 
 	void setEffect(LightManager::Effect const &effect);
+    // REVIEW: it's better to return small types by value
 	LightManager::Effect const &getEffect() const;
 
 	LightManager(LightManager const &) = delete;
@@ -65,6 +68,36 @@ class LightManager final
 
 	Adafruit_NeoPixel pixels;
 
+    /* REVIEW: this class' memebers represent different and independent entities (eg. xmass-mode, rainbow mode, etc.). i'd consider moving these out into separate classes,
+     *         that opperate on the same 'pixels' object, passed as a reference, but keep all the internals separatated from one another. this way these can be kept inside LightManager
+     *         yet called only upon change, by eg. setting a pointer. example:
+     *
+     *         struct Effect
+     *         {
+     *           virtual Effect() = default;
+     *           virtual apply(Adafruit_NeoPixel& pixels) = 0;
+     *           virtual update(Adafruit_NeoPixel& pixels) = 0;
+     *         };
+     *
+     *         struct Effect1: Effect { ... };
+     *         struct Effect2: Effect { ... };
+     *         // ...
+     *
+     *         struct LightManager
+     *         {
+     *            Effect1 e1_;
+     *            Effect2 e2_;
+     *            // ...
+     *            Effect *e_{nullptr};
+     *         };
+     *
+     *         now in order to change effect to Effect2 it's just enough to:
+     *         e_ = &e2_;
+     *         e_->apply(pixels);
+     *
+     *         then just call updates:
+     *         e_->update(pixels);
+     */
 	uint64_t effectUpdateTime{};
 
 	uint8_t brightnessRequested{};

@@ -32,6 +32,7 @@ float constexpr BRIGHTNESS_PULSING_INC{static_cast<float>(BRIGHTNESS_PULSING_MAX
 
 LightManager::LightManager(uint8_t const pinLedStrip, uint16_t const ledCount) : pixels(ledCount, pinLedStrip, NEO_GRB + NEO_KHZ800)
 {
+    // REVIEW: this can be done on c-tors init list
 	hueStepSizeMap = {{LightManager::Effect::RainbowStatic, HUE_STEP_SIZE_STATIC},
 					  {LightManager::Effect::RainbowSlow, HUE_STEP_SIZE_SLOW},
 					  {LightManager::Effect::RainbowMedium, HUE_STEP_SIZE_MEDIUM},
@@ -190,6 +191,7 @@ void LightManager::updateState()
 	}
 }
 
+// REVIEW: LightManager should not be aware of any buttons - i suggest to rename to sth. like "nextState()".
 void LightManager::onButtonPressed()
 {
 	uint8_t effectNew{static_cast<uint8_t>(static_cast<uint8_t>(getEffect()) + 1U)};

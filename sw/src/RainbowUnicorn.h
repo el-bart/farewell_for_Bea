@@ -6,6 +6,7 @@
 
 #include "LightManager.h"
 
+// REVIEW: for project this size i'd skip (named) namespaces altogether. :)
 namespace rainbow_unicorn
 {
 
@@ -25,6 +26,7 @@ class RainbowUnicorn final
 
   private:
 	LightManager lightManager;
+    // REVIEW: i'd pull out button-related logic into a separate class - that'd simplify state transition and probably make this class redundant, as whole logic would boild down to create LightManager and ButtonHandler.
 	bool buttonPressed{false};
 
 	void updateButton();
