@@ -7,7 +7,7 @@ namespace
 {
 uint8_t constexpr PIN_LED_STRIP{D6};
 uint8_t constexpr PIN_BUTTON{D7};
-uint8_t constexpr LED_COUNT{175};
+uint8_t constexpr LED_COUNT{25};
 } // namespace
 
 RainbowUnicorn::RainbowUnicorn() : lightManager(PIN_LED_STRIP, LED_COUNT)
