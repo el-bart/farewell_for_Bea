@@ -1,35 +1,46 @@
 #include <Arduino.h>
 
-#include "RainbowUnicorn.h"
+#include "ButtonHandler.h"
+#include "LightManager.h"
 
-using rainbow_unicorn::RainbowUnicorn;
+namespace
+{
+uint32_t constexpr SERIAL_BAUD_RATE{115200UL};
+uint64_t constexpr UPDATE_INTERVAL_MSEC{10ULL};
 
-uint32_t constexpr SERIAL_BAUD_RATE{115200};
-uint64_t constexpr UPDATE_INTERVAL_MSEC{10};
+uint8_t constexpr PIN_LED_STRIP{D6};
+uint8_t constexpr PIN_BUTTON{D7};
+uint8_t constexpr LED_COUNT{25U};
 
-RainbowUnicorn rainbowUnicorn;
+ButtonHandler buttonHandler{PIN_BUTTON};
+LightManager lightManager{PIN_LED_STRIP, LED_COUNT};
+} // namespace
 
 void setup()
 {
 	Serial.begin(SERIAL_BAUD_RATE);
-    // REVIEW: i'd start 1st line with a new line, as usually duringin uC reset some garbage shows up on terminal
+
+	Serial.println();
 	Serial.println("Initializing ...");
 
 	wdt_enable(WDTO_1S);
 	Serial.println("Watchdog enabled");
 
-    // REVIEW: consider using RainbowUnicorn's c-tor instead
-	rainbowUnicorn.initialize();
+	lightManager.setEffect(LightManager::Effect::RainbowMedium);
 
-	Serial.println("Main controller initialized");
+	Serial.println("Unicorn Rainbow initialized");
 }
 
 void loop()
 {
 	wdt_reset();
 
-	rainbowUnicorn.update();
+	if (buttonHandler.buttonPressedEvent())
+	{
+		lightManager.nextEffect();
+	}
+
+	lightManager.update();
+
 	delay(UPDATE_INTERVAL_MSEC);
 }
-
-// REVIEW: for embedded devices it's quite common to put even more stuff into header-only elements. this way compiler can inline much more, w/o a need for LTO. eg. compiler can then use value from getColor() directly, as it understands the context.
