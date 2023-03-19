@@ -7,7 +7,7 @@ module heart(size, offset_z) {
     $fn = 500;
     base = size[0] * 2.0 / 3.0;
     radius = size[0] / 3.0;
-    
+
     translate([-size[0] * 0.43, -size[0] * 0.43, offset_z]) {
         linear_extrude(size[2]) {
           square(base);
@@ -40,17 +40,17 @@ module heart_box(size, base_thickness, border, gap) {
                 heart([size[0] - 2 * border - gap, size[1], size[2] - base_thickness], base_thickness);
             }
         }
-        
+
         translate([18, 18, base_thickness + hole_radius]) {
             rotate([90, 0, -45]) {
                 cylinder(h = 5, r = hole_radius, center = true, $fn = 100);
             }
         }
-        
+
         translate([offset_hole_back, offset_hole_back, 0]) {
             cylinder(h = 4 * base_thickness, r = hole_radius_back, center = true, $fn = 100);
         }
-        
+
         translate([offset_hole_back / 2, offset_hole_back / 2, 0]) {
             cylinder(h = 4 * base_thickness, r = hole_radius_button, center = true, $fn = 100);
         }
