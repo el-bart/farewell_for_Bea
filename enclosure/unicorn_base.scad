@@ -1,4 +1,4 @@
-include <detail/config.scad>
+include <detail/unicorn_config.scad>
 use <unicorn_bottom.scad>
 
 offset = -15;

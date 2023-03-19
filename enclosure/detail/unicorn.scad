@@ -1,4 +1,4 @@
-include <config.scad>
+include <unicorn_config.scad>
 
 module unicorn()
 {

@@ -1,4 +1,4 @@
-include <detail/config.scad>
+include <detail/unicorn_config.scad>
 use <detail/unicorn.scad>
 use <unicorn_top.scad>
 
