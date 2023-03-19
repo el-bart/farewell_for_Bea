@@ -1,4 +1,4 @@
-include <heart_common.scad>
+include <detail/heart_common.scad>
 
 lid_gap = 0.2;
 
